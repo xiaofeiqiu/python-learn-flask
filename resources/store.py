@@ -32,9 +32,9 @@ class StoreList(MethodView):
     @blp.arguments(StoreSchema)
     @blp.response(201, StoreSchema)
     def post(self, store_data):
-        store = StoreModel(store_data)
+        store = StoreModel(**store_data)
         try:
-            db.session(store)
+            db.session.add(store)
             db.session.commit()
         except IntegrityError:
             abort(400, message="already exist")
